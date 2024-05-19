@@ -204,6 +204,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+--- Run Lua-Love on save
+vim.api.nvim_create_autocmd({"FileWritePost", "BufWritePost"},{
+  pattern = "main.lua",
+  desc = 'Build Lua main.lua file on save',
+  group = vim.api.nvim_create_augroup('kickstart-run-lua-love', {clear = true}),
+  callback = function ()
+    local current_file = vim.fn.expand("%:p")
+    local project_root = vim.fn.getcwd()
+    vim.cmd( "!love " .. project_root )
+  end
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

@@ -15,6 +15,25 @@ end
 ls.add_snippets(nil, {
   all = {
     snip({
+      trig = 'lua-love',
+      namr = 'Loa Love',
+      dscr = 'Create a love2d main.lua file skeleton',
+    }, {
+      text {
+        'function love.load()',
+        'end',
+        '',
+        'function love.update(dt)',
+        'end',
+        '',
+        'function love.draw()',
+        'end',
+        'function love.mousepressed(x, y, button, istouch, presses)',
+        'end',
+      },
+    }),
+
+    snip({
       trig = 'booger',
       namr = 'Booger',
       dscr = "I'm a booger",
