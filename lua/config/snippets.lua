@@ -69,7 +69,26 @@ ls.add_snippets(nil, {
         'end',
       },
     }),
-
+    snip({
+      trig = 'taskfile',
+      namr = 'Taskfile',
+      dscr = 'Inserts the contents of a basic Taskfile',
+    }, {
+      text {
+        'version:"3"',
+        '',
+        'tasks:',
+        '  build:',
+        '    cmds:',
+        '      - echo "Building"',
+        '  run:',
+        '    cmds:',
+        '      - echo "Running"',
+        '  test:',
+        '    cmds:',
+        '      - echo "Testing"',
+      },
+    }),
     snip({
       trig = 'booger',
       namr = 'Booger',
