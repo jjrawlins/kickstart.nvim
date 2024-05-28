@@ -14,6 +14,43 @@ end
 
 ls.add_snippets(nil, {
   all = {
+
+    snip({
+      trig = 'typescript-json-replace',
+      namr = 'TypeScript JSON Value Replacer',
+      dscr = 'TypeScript function to replace values for a key in a JSON string',
+    }, {
+      text {
+        'function replaceJsonValue(jsonString: string, key: string, replacementValue: any): string {',
+        '  // Parse the JSON string into a JavaScript object',
+        '  const jsonObj = JSON.parse(jsonString);',
+        '',
+        '  // Recursive function to traverse the object and replace values',
+        '  function traverse(obj: any) {',
+        '    for (const prop in obj) {',
+        '      if (obj.hasOwnProperty(prop)) {',
+        '        if (typeof obj[prop] === "object" && obj[prop] !== null) {',
+        '          // If the property is an object, recursively traverse it',
+        '          traverse(obj[prop]);',
+        '        } else if (prop === key) {',
+        '          // If the property matches the specified key, replace its value',
+        '          obj[prop] = replacementValue;',
+        '        }',
+        '      }',
+        '    }',
+        '  }',
+        '',
+        '  // Start traversing the JSON object',
+        '  traverse(jsonObj);',
+        '',
+        '  // Convert the modified object back to a JSON string',
+        '  const modifiedJsonString = JSON.stringify(jsonObj);',
+        '',
+        '  return modifiedJsonString;',
+        '}',
+      },
+    }),
+
     snip({
       trig = 'lua-love',
       namr = 'Loa Love',
