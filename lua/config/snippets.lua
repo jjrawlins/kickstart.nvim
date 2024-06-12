@@ -6,7 +6,7 @@ local text = ls.text_node
 local insert = ls.insert_node
 local func = ls.function_node
 local choice = ls.choice_node
-local dynamicn = ls.dynamic_node
+local dynamic_node = ls.dynamic_node
 
 local date = function()
   return { os.date '%Y-%m-%d' }
@@ -14,7 +14,88 @@ end
 
 ls.add_snippets(nil, {
   all = {
-
+    snip({
+      trig = 'datadog-aspect',
+      namr = 'Datadog Aspect',
+      dscr = 'Create a Datadog Aspect class',
+    }, {
+      text {
+        "import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';",
+        "import { IAspect } from 'aws-cdk-lib';",
+        "import { Function } from 'aws-cdk-lib/aws-lambda';",
+        "import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';",
+        "import { Secretsmanager } from 'cdk-iam-floyd';",
+        "import { IConstruct } from 'constructs';",
+        "import { Datadog } from 'datadog-cdk-constructs-v2';",
+        '',
+        'interface DataDogAspectProps {',
+        '  datadog: Datadog;',
+        '  datadogApiSecretArn?: string;',
+        '}',
+        '',
+        'export class DatadogAspect implements IAspect {',
+        '  constructor(private props: DataDogAspectProps) {',
+        '  }',
+        '',
+        '  visit(node: IConstruct): void {',
+        '    if (',
+        '      node instanceof Function || node instanceof NodejsFunction || node instanceof PythonFunction',
+        '    ) {',
+        '      this.props.datadog.addLambdaFunctions([node]);',
+        '      if (this.props.datadogApiSecretArn) {',
+        '        (node as Function).addToRolePolicy(new Secretsmanager()',
+        '          .allow()',
+        '          .toGetSecretValue()',
+        '          .toDescribeSecret()',
+        '          .on(this.props.datadogApiSecretArn));',
+        '      }',
+        '    }',
+        '  }',
+        '}',
+      },
+    }),
+    snip({
+      trig = 'cdk-v2-stack-template',
+      namr = 'CDK v2 Stack Class Template',
+      dscr = 'Template for creating a new CDK v2 stack class',
+    }, {
+      text {
+        "import { Stack, StackProps } from 'aws-cdk-lib';",
+        "import { Construct } from 'constructs';",
+        '',
+        'export class ' .. 'ClassName' .. ' extends Stack {',
+        '  constructor(scope: Construct, id: string, props?: ' .. 'ClassName' .. 'Props) {',
+        '    super(scope, id, props);',
+        '',
+        '    // Define the stack resources and logic here',
+        '',
+        '  }',
+        '}',
+      },
+    }),
+    snip({
+      trig = 'cdk-v2-construct-template',
+      namr = 'CDK v2 Construct Template',
+      dscr = 'Template for creating a new CDK v2 construct',
+    }, {
+      text {
+        "import { Construct } from 'constructs';",
+        '',
+        'interface ' .. 'ChangeMe' .. 'Props {',
+        '  // Define the properties for the construct',
+        '',
+        '}',
+        '',
+        'export class ' .. 'ChangeMe' .. ' extends Construct {',
+        '  constructor(scope: Construct, id: string, props: ' .. 'ChangeMe' .. 'Props) {',
+        '    super(scope, id);',
+        '',
+        '    // Define the construct logic here',
+        '',
+        '  }',
+        '}',
+      },
+    }),
     snip({
       trig = 'typescript-json-replace',
       namr = 'TypeScript JSON Value Replacer',
