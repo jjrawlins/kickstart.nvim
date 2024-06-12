@@ -12,6 +12,15 @@ local date = function()
   return { os.date '%Y-%m-%d' }
 end
 
+local get_filename = function()
+  local bufname = vim.fn.expand '%:t:r'
+  if bufname == '' then
+    return ''
+  else
+    return bufname
+  end
+end
+
 ls.add_snippets(nil, {
   all = {
     snip({
@@ -63,8 +72,16 @@ ls.add_snippets(nil, {
         "import { Stack, StackProps } from 'aws-cdk-lib';",
         "import { Construct } from 'constructs';",
         '',
-        'export class ' .. 'ClassName' .. ' extends Stack {',
-        '  constructor(scope: Construct, id: string, props?: ' .. 'ClassName' .. 'Props) {',
+        'export class ',
+      },
+      func(get_filename, {}),
+      text {
+        ' extends Stack {',
+        '  constructor(scope: Construct, id: string, props?: ',
+      },
+      func(get_filename, {}),
+      text {
+        'Props) {',
         '    super(scope, id, props);',
         '',
         '    // Define the stack resources and logic here',
@@ -81,13 +98,25 @@ ls.add_snippets(nil, {
       text {
         "import { Construct } from 'constructs';",
         '',
-        'interface ' .. 'ChangeMe' .. 'Props {',
+        'interface ',
+      },
+      func(get_filename, {}),
+      text {
+        'Props {',
         '  // Define the properties for the construct',
         '',
         '}',
         '',
-        'export class ' .. 'ChangeMe' .. ' extends Construct {',
-        '  constructor(scope: Construct, id: string, props: ' .. 'ChangeMe' .. 'Props) {',
+        'export class ',
+      },
+      func(get_filename, {}),
+      text {
+        ' extends Construct {',
+        '  constructor(scope: Construct, id: string, props: ',
+      },
+      func(get_filename, {}),
+      text {
+        'Props) {',
         '    super(scope, id);',
         '',
         '    // Define the construct logic here',
