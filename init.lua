@@ -113,7 +113,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
+vim.keymap.set('n', 'x', '"_dl', { desc = 'Delete into black hole register' })
+vim.keymap.set('n', 'dd', '"_dd', { desc = 'Delete line into black hole register' })
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -153,6 +155,11 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Set default tab to be 2 spaces and convert tabs to spaces
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -205,15 +212,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 --- Run Lua-Love on save
-vim.api.nvim_create_autocmd({"FileWritePost", "BufWritePost"},{
-  pattern = "main.lua",
+vim.api.nvim_create_autocmd({ 'FileWritePost', 'BufWritePost' }, {
+  pattern = 'main.lua',
   desc = 'Build Lua main.lua file on save',
-  group = vim.api.nvim_create_augroup('kickstart-run-lua-love', {clear = true}),
-  callback = function ()
-    local current_file = vim.fn.expand("%:p")
+  group = vim.api.nvim_create_augroup('kickstart-run-lua-love', { clear = true }),
+  callback = function()
+    local current_file = vim.fn.expand '%:p'
     local project_root = vim.fn.getcwd()
-    vim.cmd( "!love " .. project_root )
-  end
+    vim.cmd('!love ' .. project_root)
+  end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -224,6 +231,28 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Run gofmt on save
+
+local format_sync_grp = vim.api.nvim_create_augroup('GoFormat', {})
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = function()
+    require('go.format').gofmt()
+  end,
+  group = format_sync_grp,
+})
+
+-- Run gofmt + goimports on save
+
+local format_sync_grp = vim.api.nvim_create_augroup('goimports', {})
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = function()
+    require('go.format').goimports()
+  end,
+  group = format_sync_grp,
+})
 
 -- [[ Configure and install plugins ]]
 --
@@ -877,7 +906,88 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
-
+  {
+    'max397574/colortils.nvim',
+    cmd = 'Colortils',
+    config = function()
+      require('colortils').setup {
+        -- Register in which color codes will be copied
+        register = '+',
+        -- Preview for colors, if it contains `%s` this will be replaced with a hex color code of the color
+        color_preview = '█ %s',
+        -- The default in which colors should be saved
+        -- This can be hex, hsl or rgb
+        default_format = 'hex',
+        -- String: default color if no color is found
+        default_color = '#000000',
+        -- Border for the float
+        border = 'rounded',
+        -- Some mappings which are used inside the tools
+        mappings = {
+          -- increment values
+          increment = 'l',
+          -- decrement values
+          decrement = 'h',
+          -- increment values with bigger steps
+          increment_big = 'L',
+          -- decrement values with bigger steps
+          decrement_big = 'H',
+          -- set values to the minimum
+          min_value = '0',
+          -- set values to the maximum
+          max_value = '$',
+          -- save the current color in the register specified above with the format specified above
+          set_register_default_format = '<cr>',
+          -- save the current color in the register specified above with a format you can choose
+          set_register_choose_format = 'g<cr>',
+          -- replace the color under the cursor with the current color in the format specified above
+          replace_default_format = '<m-cr>',
+          -- replace the color under the cursor with the current color in a format you can choose
+          replace_choose_format = 'g<m-cr>',
+          -- export the current color to a different tool
+          export = 'E',
+          -- set the value to a certain number (done by just entering numbers)
+          set_value = 'c',
+          -- toggle transparency
+          transparency = 'T',
+          -- choose the background (for transparent colors)
+          choose_background = 'B',
+        },
+      }
+    end,
+  },
+  {
+    'smolck/command-completion.nvim',
+    config = function()
+      require('command-completion').setup {
+        border = nil, -- What kind of border to use, passed through directly to `nvim_open_win()`,
+        -- see `:help nvim_open_win()` for available options (e.g. 'single', 'double', etc.)
+        max_col_num = 5, -- Maximum number of columns to display in the completion window
+        min_col_width = 20, -- Minimum width of completion window columns
+        use_matchfuzzy = true, -- Whether or not to use `matchfuzzy()` (see `:help matchfuzzy()`)
+        -- to order completion results
+        highlight_selection = true, -- Whether or not to highlight the currently
+        -- selected item, not sure why this is an option tbh
+        highlight_directories = true, -- Whether or not to higlight directories with
+        -- the Directory highlight group (`:help hl-Directory`)
+        tab_completion = true, -- Whether or not tab completion on displayed items is enabled
+      }
+    end,
+  },
+  {
+    'ray-x/go.nvim',
+    dependencies = { -- optional packages
+      'ray-x/guihua.lua',
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('go').setup()
+    end,
+    event = { 'CmdlineEnter' },
+    ft = { 'go', 'gomod' },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
