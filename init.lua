@@ -113,7 +113,7 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
+vim.opt.clipboard = { 'unnamedplus' }
 vim.keymap.set('n', 'x', '"_dl', { desc = 'Delete into black hole register' })
 vim.keymap.set('n', 'dd', '"_dd', { desc = 'Delete line into black hole register' })
 
@@ -160,6 +160,10 @@ vim.opt.scrolloff = 10
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+
+-- Enable line numbers by default
+vim.opt.number = true
+vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
