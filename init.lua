@@ -116,6 +116,11 @@ vim.opt.showmode = false
 vim.opt.clipboard = { 'unnamedplus' }
 vim.keymap.set('n', 'x', '"_dl', { desc = 'Delete into black hole register' })
 vim.keymap.set('n', 'dd', '"_dd', { desc = 'Delete line into black hole register' })
+vim.keymap.set('n', 'dW', '"_dW', { desc = 'Delete WORD into black hole register' })
+vim.keymap.set('n', 'dG', '"_dG', { desc = 'Delete to end of file into black hole register' })
+
+-- Enable Spell Checking
+vim.keymap.set('n', '<leader>sc', '<cmd>setlocal spell! spelllang=en_us<CR>', { desc = 'Toggle [S]pell [S]checking' })
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -201,6 +206,10 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Add this to your init.lua file
+vim.keymap.set('n', '<C-\\>', '<cmd>CommentToggle<CR>', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-\\>', '<cmd>CommentToggle<CR>', { noremap = true, silent = true })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -212,18 +221,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
-  end,
-})
-
---- Run Lua-Love on save
-vim.api.nvim_create_autocmd({ 'FileWritePost', 'BufWritePost' }, {
-  pattern = 'main.lua',
-  desc = 'Build Lua main.lua file on save',
-  group = vim.api.nvim_create_augroup('kickstart-run-lua-love', { clear = true }),
-  callback = function()
-    local current_file = vim.fn.expand '%:p'
-    local project_root = vim.fn.getcwd()
-    vim.cmd('!love ' .. project_root)
   end,
 })
 
@@ -452,7 +449,6 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
-
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -669,7 +665,6 @@ require('lazy').setup({
       }
     end,
   },
-
   { -- Autoformat
     'stevearc/conform.nvim',
     lazy = false,
@@ -820,6 +815,29 @@ require('lazy').setup({
   },
   {
     'github/copilot.vim',
+  },
+  {
+    'terrortylor/nvim-comment',
+    config = function()
+      require('nvim_comment').setup {
+        -- Linters prefer comment and line to have a space in between markers
+        marker_padding = true,
+        -- should comment out empty or whitespace only lines
+        comment_empty = true,
+        -- trim empty comment whitespace
+        comment_empty_trim_whitespace = true,
+        -- Should key mappings be created
+        create_mappings = true,
+        -- Normal mode mapping left hand side
+        line_mapping = 'gcc',
+        -- Visual/Operator mapping left hand side
+        operator_mapping = 'gc',
+        -- text object mapping, comment chunk,,
+        comment_chunk_text_object = 'ic',
+        -- Hook function to call before commenting takes place
+        hook = nil,
+      }
+    end,
   },
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
@@ -991,6 +1009,16 @@ require('lazy').setup({
     event = { 'CmdlineEnter' },
     ft = { 'go', 'gomod' },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
+  {
+    '2nthony/sortjson.nvim',
+    cmd = {
+      'SortJSONByAlphaNum',
+      'SortJSONByAlphaNumReverse',
+      'SortJSONByKeyLength',
+      'SortJSONByKeyLengthReverse',
+    },
+    config = true,
   },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
