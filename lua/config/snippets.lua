@@ -29,69 +29,67 @@ ls.add_snippets(nil, {
       dscr = 'Example of mocking a module in a Jest test',
     }, {
       text {
-        [[
-import { ApiTestPayload } from './resources/ApiCallTestPayloads';
-import { FunctionUtilityOne } from '../src/handlers/FunctionUtilityOne';
-import { FunctionUtilityTwo } from '../src/handlers/FunctionUtilityTwo';
-import { handler } from '../src/handlers/ExampleLambdaFunction.handler';
-
-jest.mock('../src/handlers/FunctionUtilityOne');
-jest.mock('../src/handlers/FunctionUtilityTwo');
-
-describe('FunctionUtilityTwo tests', () => {
-  beforeEach(() => {
-    process.env.AWS_REGION = 'us-east-2';
-  });
-
-  test('FunctionUtilityTwo.getValue is called with correct parameters', async () => {
-    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');
-    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;
-
-    const mockGetValue = jest.fn().mockReturnValue('mockedConfigValue');
-    FunctionUtilityTwo.prototype.getValue = mockGetValue;
-
-    const event = JSON.parse(ApiTestPayload);
-    const result = await handler(event);
-
-    console.log(result);
-
-    expect(mockGetSecretString).toHaveBeenCalledWith('FooBar/myFooSecret');
-    expect(mockGetValue).toHaveBeenCalledWith('configValue');
-  });
-
-  test('FunctionUtilityTwo.getValue returns correct value', async () => {
-    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');
-    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;
-
-    const mockGetValue = jest.fn().mockReturnValue('mockedConfigValue');
-    FunctionUtilityTwo.prototype.getValue = mockGetValue;
-
-    const event = JSON.parse(ApiTestPayload);
-    const result = await handler(event);
-
-    console.log(result);
-
-    expect(result).toEqual({
-      statusCode: 200,
-      body: 'Request processed successfully',
-    });
-    expect(mockGetValue).toHaveBeenCalledWith('configValue');
-  });
-
-  test('FunctionUtilityTwo.getValue throws error for unknown secret', async () => {
-    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');
-    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;
-
-    const mockGetValue = jest.fn().mockImplementation(() => {
-      throw new Error('Secret unknownSecretKey not found');
-    });
-    FunctionUtilityTwo.prototype.getValue = mockGetValue;
-
-    const event = JSON.parse(ApiTestPayload);
-    await expect(handler(event)).rejects.toThrow('Secret unknownSecretKey not found');
-  });
-});
-          ]],
+        "import { ApiTestPayload } from './resources/ApiCallTestPayloads';",
+        "import { FunctionUtilityOne } from '../src/handlers/FunctionUtilityOne';",
+        "import { FunctionUtilityTwo } from '../src/handlers/FunctionUtilityTwo';",
+        "import { handler } from '../src/handlers/ExampleLambdaFunction.handler';",
+        '',
+        "jest.mock('../src/handlers/FunctionUtilityOne');",
+        "jest.mock('../src/handlers/FunctionUtilityTwo');",
+        '',
+        "describe('FunctionUtilityTwo tests', () => {",
+        '  beforeEach(() => {',
+        "    process.env.AWS_REGION = 'us-east-2';",
+        '  });',
+        '',
+        "  test('FunctionUtilityTwo.getValue is called with correct parameters', async () => {",
+        "    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');",
+        '    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;',
+        '',
+        "    const mockGetValue = jest.fn().mockReturnValue('mockedConfigValue');",
+        '    FunctionUtilityTwo.prototype.getValue = mockGetValue;',
+        '',
+        '    const event = JSON.parse(ApiTestPayload);',
+        '    const result = await handler(event);',
+        '',
+        '    console.log(result);',
+        '',
+        "    expect(mockGetSecretString).toHaveBeenCalledWith('FooBar/myFooSecret');",
+        "    expect(mockGetValue).toHaveBeenCalledWith('configValue');",
+        '  });',
+        '',
+        "  test('FunctionUtilityTwo.getValue returns correct value', async () => {",
+        "    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');",
+        '    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;',
+        '',
+        "    const mockGetValue = jest.fn().mockReturnValue('mockedConfigValue');",
+        '    FunctionUtilityTwo.prototype.getValue = mockGetValue;',
+        '',
+        '    const event = JSON.parse(ApiTestPayload);',
+        '    const result = await handler(event);',
+        '',
+        '    console.log(result);',
+        '',
+        '    expect(result).toEqual({',
+        '      statusCode: 200,',
+        "      body: 'Request processed successfully',",
+        '    });',
+        "    expect(mockGetValue).toHaveBeenCalledWith('configValue');",
+        '  });',
+        '',
+        "  test('FunctionUtilityTwo.getValue throws error for unknown secret', async () => {",
+        "    const mockGetSecretString = jest.fn().mockReturnValue('mockedSecretKey');",
+        '    FunctionUtilityOne.prototype.getSecretString = mockGetSecretString;',
+        '',
+        '    const mockGetValue = jest.fn().mockImplementation(() => {',
+        "      throw new Error('Secret unknownSecretKey not found');",
+        '    });',
+        '    FunctionUtilityTwo.prototype.getValue = mockGetValue;',
+        '',
+        '    const event = JSON.parse(ApiTestPayload);',
+        "    await expect(handler(event)).rejects.toThrow('Secret unknownSecretKey not found');",
+        '  });',
+        '});',
       },
     }),
     snip({
