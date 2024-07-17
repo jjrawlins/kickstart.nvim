@@ -2,9 +2,14 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<C-j>", "<Cmd>Lspsaga diagnostic_jump_next<cr>", opts)
-vim.keymap.set("n", "K", "<Cmd>Lspsaga hover_doc<cr>", opts)
-vim.keymap.set("n", "gd", "<Cmd>Lspsaga lsp_finder<cr>", opts)
-vim.keymap.set("i", "<C-k>", "<Cmd>Lspsaga signature_help<cr>", opts)
-vim.keymap.set("n", "gp", "<Cmd>Lspsaga preview_definition<cr>", opts)
-vim.keymap.set("n", "gr", "<Cmd>Lspsaga rename<cr>", opts)
+-- Lspsaga
+vim.keymap.set("n", "<Leader>Clt", "<Cmd>Lspsaga peek_type_definition<cr>", opts)
+vim.keymap.set("n", "<Leader>Clg", "<Cmd>Lspsaga goto_definition<cr>", opts)
+vim.keymap.set("n", "<Leader>Clc", "<Cmd>Lspsaga code_action<cr>", opts)
+vim.keymap.set("n", "<Leader>Cld", "<Cmd>Lspsaga peek_definition<cr>", opts)
+vim.keymap.set("n", "<Leader>Clf", "<Cmd>Lspsaga finder<cr>", opts)
+vim.keymap.set("n", "<Leader>Clo", "<Cmd>Lspsaga outline<cr>", opts)
+vim.keymap.set("n", "<Leader>Clr", "<Cmd>Lspsaga rename<cr>", opts)
+
+-- Custom Code Actions
+vim.keymap.set("n", "<Leader>Ctl", "<Cmd>EslintFixAll<cr>", opts)
