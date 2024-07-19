@@ -1,6 +1,11 @@
 return {
-  "numToStr/Comment.nvim",
-  opts = {
-    -- add any options here
-  },
+  "terrortylor/nvim-comment",
+  init = function()
+    require("nvim_comment").setup({
+      comment_empty = false,
+      line_mapping = "<leader>Ccl",
+      operator_mapping = "<leader>Cco",
+      comment_chunk_text_object = "ic",
+    })
+  end,
 }

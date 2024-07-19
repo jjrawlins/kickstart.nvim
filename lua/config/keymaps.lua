@@ -12,4 +12,14 @@ vim.keymap.set("n", "<Leader>Clo", "<Cmd>Lspsaga outline<cr>", opts)
 vim.keymap.set("n", "<Leader>Clr", "<Cmd>Lspsaga rename<cr>", opts)
 
 -- Custom Code Actions
-vim.keymap.set("n", "<Leader>Ctl", "<Cmd>EslintFixAll<cr>", opts)
+vim.keymap.set("n", "<Leader>Ctl", "<Cmd>EslintFixAll<CR>", opts)
+
+-- Remove copy paste issues
+vim.opt.clipboard = { "unnamedplus" }
+vim.keymap.set("n", "x", '"_dl', { desc = "Delete into black hole register" })
+vim.keymap.set("n", "dd", '"_dd', { desc = "Delete line into black hole register" })
+vim.keymap.set("n", "dW", '"_dW', { desc = "Delete WORD into black hole register" })
+vim.keymap.set("n", "dG", '"_dG', { desc = "Delete to end of file into black hole register" })
+
+-- Focus NeoTree
+vim.keymap.set("n", "<Leader>nt", "<Cmd>Neotree reveal<cr>", opts)

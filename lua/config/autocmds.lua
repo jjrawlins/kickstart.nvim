@@ -6,7 +6,7 @@ local function augroup(name)
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup("lsp"),
+  group = augroup("eslint_lsp"),
   pattern = "*.js,*.ts,*.jsx,*.tsx",
   callback = function()
     vim.api.nvim_command("EslintFixAll")
