@@ -23,3 +23,6 @@ vim.keymap.set("n", "dG", '"_dG', { desc = "Delete to end of file into black hol
 
 -- Focus NeoTree
 vim.keymap.set("n", "<Leader>nt", "<Cmd>Neotree reveal<cr>", opts)
+
+-- Set complete option  to menuone, noinsert, noselect
+vim.o.completeopt = "menuone,noselect"
