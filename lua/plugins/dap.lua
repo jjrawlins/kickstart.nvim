@@ -7,6 +7,7 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
+      "mfussenegger/nvim-dap-python",
     },
     config = function()
       local dap = require("dap")
@@ -41,7 +42,6 @@ return {
       --     args = { "dap", "-l", "127.0.0.1:${port}" },
       --   },
       -- }
-
       local elixir_ls_debugger = vim.fn.exepath("elixir-ls-debugger")
       if elixir_ls_debugger ~= "" then
         dap.adapters.mix_task = {

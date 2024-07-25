@@ -11,3 +11,5 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 vim.opt.relativenumber = false
+
+vim.g.python_host_prog = vim.fn.expand("/Users/jjrawlins/.asdf/shims/python")

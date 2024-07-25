@@ -24,6 +24,37 @@ end
 ls.add_snippets(nil, {
   all = {
     snip({
+      trig = "typescript-class-template",
+      namr = "Typescript Class Template",
+      dscr = "Template for creating Typescript Class using my favorite pattern",
+    }, {
+      text({
+        "interface ",
+      }),
+      func(get_filename, {}),
+      text({
+        "Props {",
+        "  // Define the properties for the constructor",
+        "",
+        "}",
+        "",
+        "export class ",
+      }),
+      func(get_filename, {}),
+      text({
+        " {",
+        "  constructor(props: ",
+      }),
+      func(get_filename, {}),
+      text({
+        "Props) {",
+        "    // Define the constructor logic here",
+        "",
+        "  }",
+        "}",
+      }),
+    }),
+    snip({
       trig = "jest-test-mocking",
       namr = "Jest Test Mocking",
       dscr = "Example of mocking a module in a Jest test",
