@@ -20,7 +20,8 @@ vim.keymap.set("n", "x", '"_dl', { desc = "Delete into black hole register" })
 vim.keymap.set("n", "dd", '"_dd', { desc = "Delete line into black hole register" })
 vim.keymap.set("n", "dW", '"_dW', { desc = "Delete WORD into black hole register" })
 vim.keymap.set("n", "dG", '"_dG', { desc = "Delete to end of file into black hole register" })
-
+-- Prevent overwriting clipboard when pasting in visual mode
+vim.keymap.set("x", "p", '"_dP', { desc = "Paste without overwriting clipboard" })
 -- Focus NeoTree
 vim.keymap.set("n", "<Leader>nt", "<Cmd>Neotree reveal<cr>", opts)
 
