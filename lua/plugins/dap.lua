@@ -67,7 +67,12 @@ return {
 
       -- Eval var under cursor
       vim.keymap.set("n", "<space>?", function()
-        require("dapui").eval(nil, { enter = true })
+        require("dapui").eval(nil, {
+          enter = true,
+          context = "repl", -- Add this line,
+          width = 60, -- Add this line
+          height = 10, -- Add this line
+        })
       end)
 
       vim.keymap.set("n", "<F1>", dap.continue)
