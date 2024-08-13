@@ -10,6 +10,7 @@ vim.keymap.set("n", "<Leader>Cld", "<Cmd>Lspsaga peek_definition<cr>", opts)
 vim.keymap.set("n", "<Leader>Clf", "<Cmd>Lspsaga finder<cr>", opts)
 vim.keymap.set("n", "<Leader>Clo", "<Cmd>Lspsaga outline<cr>", opts)
 vim.keymap.set("n", "<Leader>Clr", "<Cmd>Lspsaga rename<cr>", opts)
+vim.keymap.set("n", "<C-Esc>", "<Cmd>Lspsaga close_floaterm<CR>", opts)
 
 -- Custom Code Actions
 vim.keymap.set("n", "<Leader>Ctl", "<Cmd>EslintFixAll<CR>", opts)

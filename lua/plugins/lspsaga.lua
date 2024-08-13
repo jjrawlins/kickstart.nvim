@@ -5,6 +5,11 @@ return {
       ui = {
         code_action = "",
       },
+      definition = {
+        keys = {
+          quit = "<C-Esc>", -- Add this line to set Control+Escape as the quit key
+        },
+      },
     })
   end,
   dependencies = {

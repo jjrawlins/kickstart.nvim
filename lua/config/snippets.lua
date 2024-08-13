@@ -303,7 +303,7 @@ ls.add_snippets(nil, {
       dscr = "Inserts the contents of a basic Taskfile",
     }, {
       text({
-        'version:"3"',
+        "version: '3'",
         "",
         "tasks:",
         "  build:",
