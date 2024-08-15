@@ -15,6 +15,14 @@ vim.keymap.set("n", "<C-Esc>", "<Cmd>Lspsaga close_floaterm<CR>", opts)
 -- Custom Code Actions
 vim.keymap.set("n", "<Leader>Ctl", "<Cmd>EslintFixAll<CR>", opts)
 
+-- Custom Spelling Actions
+vim.keymap.set("n", "<Leader>Si", "<Cmd>setlocal spell! spelllang=en_us<CR>", opts)
+vim.keymap.set("n", "<Leader>Sn", "]s", { noremap = true, silent = true, desc = "Go to next misspelled word" })
+vim.keymap.set("n", "<Leader>Sp", "[s", { noremap = true, silent = true, desc = "Go to previous misspelled word" })
+vim.keymap.set("n", "<Leader>Sz", "z=", { noremap = true, silent = true, desc = "Open spelling suggestion list" })
+vim.keymap.set("n", "<Leader>Sa", "zg", { noremap = true, silent = true, desc = "Add word to dictionary" })
+vim.keymap.set("n", "<Leader>Sr", "zug", { noremap = true, silent = true, desc = "Remove word from dictionary" })
+
 -- Remove copy paste issues
 vim.opt.clipboard = { "unnamedplus" }
 vim.keymap.set("n", "x", '"_dl', { desc = "Delete into black hole register" })

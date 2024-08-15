@@ -12,3 +12,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.api.nvim_command("EslintFixAll")
   end,
 })
+
+-- Remove carriage return from yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    if vim.v.event.operator == "y" and vim.v.event.regtype == "V" then
+      local content = vim.fn.getreg(vim.v.event.regname)
+      content = content:gsub("\n$", "")
+      vim.fn.setreg(vim.v.event.regname, content)
+    end
+  end,
+})

@@ -72,7 +72,7 @@ return { -- Autocompletion
         --  This will expand snippets if the LSP sent a snippet.
         ["<C-y>"] = cmp.mapping.confirm({ select = true }),
         -- Add this new mapping to escape/close the completion menu
-        ["<C-e>"] = cmp.mapping.abort(), -- If you prefer more traditional completion keymaps,
+        ["<C-Esc>"] = cmp.mapping.abort(), -- If you prefer more traditional completion keymaps,
         -- you can uncomment the following lines
         --['<CR>'] = cmp.mapping.confirm { select = true },
         ["<Enter>"] = cmp.mapping.confirm({ select = true }),
