@@ -41,7 +41,7 @@ vim.o.completeopt = "menuone,noselect"
 
 vim.api.nvim_set_keymap(
   "v",
-  "<leader>r",
+  "<leader>sr",
   [[y:%s/<C-r>=escape(@", '/\')<CR>/g<left><left>]],
-  { noremap = true, silent = true }
+  { desc = "Search and replace current file", noremap = true, silent = true }
 )
