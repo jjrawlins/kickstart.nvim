@@ -30,7 +30,7 @@ vim.keymap.set("n", "dd", '"_dd', { desc = "Delete line into black hole register
 vim.keymap.set("n", "dW", '"_dW', { desc = "Delete WORD into black hole register" })
 vim.keymap.set("n", "dG", '"_dG', { desc = "Delete to end of file into black hole register" })
 -- Prevent overwriting clipboard when pasting in visual mode
-vim.keymap.set("x", "p", '"_dP', { desc = "Paste without overwriting clipboard" })
+-- vim.keymap.set("x", "p", '"_dP', { desc = "Paste without overwriting clipboard" })
 -- Focus NeoTree
 vim.keymap.set("n", "<Leader>nt", "<Cmd>Neotree reveal<cr>", opts)
 
@@ -38,3 +38,10 @@ vim.keymap.set("n", "<Leader>np", "<Cmd>Telescope neoclip<cr>", opts)
 
 -- Set complete option  to menuone, noinsert, noselect
 vim.o.completeopt = "menuone,noselect"
+
+vim.api.nvim_set_keymap(
+  "v",
+  "<leader>r",
+  [[y:%s/<C-r>=escape(@", '/\')<CR>/g<left><left>]],
+  { noremap = true, silent = true }
+)
